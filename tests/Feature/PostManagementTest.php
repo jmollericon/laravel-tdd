@@ -12,23 +12,6 @@ class PostManagementTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_post_can_be_created ()
-    {
-        $this->withoutExceptionHandling();
-        $response = $this->post('/posts', [
-            'title' => 'Test Title',
-            'content' => 'Test Content'
-        ]);
-
-        $response->assertOk();
-        $this->assertCount(1, Post::all());
-
-        $post = Post::first();
-        $this->assertEquals($post->title, 'Test Title');
-        $this->assertEquals($post->content, 'Test Content');
-    }
-
-    /** @test */
     public function list_of_post_can_be_retrieved()
     {
         $this->withoutExceptionHandling();
@@ -56,5 +39,23 @@ class PostManagementTest extends TestCase
         $post = Post::first();
         $response->assertViewIs('posts.show');
         $response->assertViewHas('post', $post);
+    }
+
+    /** @test */
+    public function a_post_can_be_created ()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->post('/posts', [
+            'title' => 'Test Title',
+            'content' => 'Test Content'
+        ]);
+
+        $this->assertCount(1, Post::all());
+
+        $post = Post::first();
+        $this->assertEquals($post->title, 'Test Title');
+        $this->assertEquals($post->content, 'Test Content');
+
+        $response->assertRedirect('/posts/' . $post->id);
     }
 }

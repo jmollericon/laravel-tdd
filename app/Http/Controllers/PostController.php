@@ -24,6 +24,8 @@ class PostController extends Controller
             'title' => '',
             'content' => ''
         ]);
-        Post::create($data);
+        $post = Post::create($data);
+
+        return redirect('/posts/' . $post->id);
     }
 }
