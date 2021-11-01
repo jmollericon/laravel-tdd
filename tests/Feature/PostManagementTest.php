@@ -79,4 +79,18 @@ class PostManagementTest extends TestCase
 
         $response->assertRedirect('/posts/' . $post->id);
     }
+
+    /** @test */
+    public function a_post_can_be_deleted ()
+    {
+        $this->withoutExceptionHandling();
+
+        $post = Post::factory()->create();
+
+        $response = $this->delete('/posts/' . $post->id);
+
+        $this->assertCount(0, Post::all());
+
+        $response->assertRedirect('/posts/');
+    }
 }
