@@ -58,4 +58,25 @@ class PostManagementTest extends TestCase
 
         $response->assertRedirect('/posts/' . $post->id);
     }
+
+    /** @test */
+    public function a_post_can_be_updated ()
+    {
+        $this->withoutExceptionHandling();
+
+        $post = Post::factory()->create();
+
+        $response = $this->put('/posts/' .$post->id , [
+            'title' => 'Test Title',
+            'content' => 'Test Content'
+        ]);
+
+        $this->assertCount(1, Post::all());
+
+        $post = $post->fresh();
+        $this->assertEquals($post->title, 'Test Title');
+        $this->assertEquals($post->content, 'Test Content');
+
+        $response->assertRedirect('/posts/' . $post->id);
+    }
 }

@@ -28,4 +28,13 @@ class PostController extends Controller
 
         return redirect('/posts/' . $post->id);
     }
+
+    public function update(Post $post, Request $request)
+    {
+        $data = $request->all();
+        $post->title = $data['title'];
+        $post->content = $data['content'];
+        $post->save();
+        return redirect('/posts/' . $post->id);
+    }
 }
