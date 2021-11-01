@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::post('/posts', [PostController::class, 'store']);
+Route::get('/posts', [PostController::class, 'index']);

@@ -27,4 +27,19 @@ class PostManagementTest extends TestCase
         $this->assertEquals($post->title, 'Test Title');
         $this->assertEquals($post->content, 'Test Content');
     }
+
+    /** @test */
+    public function list_of_post_can_be_retrieved()
+    {
+        $this->withoutExceptionHandling();
+
+        Post::factory()->count(3)->create();
+
+        $response = $this->get('/posts');
+        $response->assertOk();
+
+        $posts = Post::all();
+        $response->assertViewIs('posts.index');
+        $response->assertViewHas('posts', $posts);
+    }
 }
