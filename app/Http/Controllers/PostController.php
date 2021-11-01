@@ -21,7 +21,7 @@ class PostController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'title' => '',
+            'title' => 'required',
             'content' => ''
         ]);
         $post = Post::create($data);

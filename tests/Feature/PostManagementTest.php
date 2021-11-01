@@ -93,4 +93,15 @@ class PostManagementTest extends TestCase
 
         $response->assertRedirect('/posts/');
     }
+
+    /** @test */
+    public function post_title_is_required()
+    {
+        $response = $this->post('/posts', [
+            'title' => '',
+            'content' => 'Test Content'
+        ]);
+
+        $response->assertSessionHasErrors(['title']);
+    }
 }
