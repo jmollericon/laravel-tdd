@@ -8,15 +8,20 @@ use Tests\TestCase;
 
 class PostManagementTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    /** @test */
+    public function a_post_can_be_created ()
     {
-        $response = $this->get('/');
+        $this->withoutExceptionHandling();
+        $response = $this->post('/posts', [
+            'title' => 'Test Title',
+            'content' => 'Test Content'
+        ]);
 
-        $response->assertStatus(200);
+        $response->assertOk();
+        $this->assertCount(1, Post::all());
+
+        $post = Post::first();
+        $this->assertEquals($post->title, 'Test Title');
+        $this->assertEquals($post->content, 'Test Content');
     }
 }
