@@ -104,4 +104,15 @@ class PostManagementTest extends TestCase
 
         $response->assertSessionHasErrors(['title']);
     }
+
+    /** @test */
+    public function post_content_is_required()
+    {
+        $response = $this->post('/posts', [
+            'title' => 'Test Title',
+            'content' => ''
+        ]);
+
+        $response->assertSessionHasErrors(['content']);
+    }
 }

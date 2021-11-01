@@ -22,7 +22,7 @@ class PostController extends Controller
     {
         $data = request()->validate([
             'title' => 'required',
-            'content' => ''
+            'content' => 'required'
         ]);
         $post = Post::create($data);
 
