@@ -42,4 +42,19 @@ class PostManagementTest extends TestCase
         $response->assertViewIs('posts.index');
         $response->assertViewHas('posts', $posts);
     }
+
+    /** @test */
+    public function a_post_can_be_retrieved()
+    {
+        $this->withoutExceptionHandling();
+
+        $post = Post::factory()->create();
+
+        $response = $this->get('/posts/' . $post->id);
+        $response->assertOk();
+
+        $post = Post::first();
+        $response->assertViewIs('posts.show');
+        $response->assertViewHas('post', $post);
+    }
 }
